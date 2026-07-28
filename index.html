@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Urban Style | Premium Men’s Fashion</title>
+  <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap' rel='stylesheet'>
+  <style>
+    :root { --bg: #0f172a; --panel: #111827; --text: #f9fafb; --muted: #d1d5db; --accent: #f59e0b; --accent-2: #fb923c; }
+    body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f172a 0%, #111827 60%, #1f2937 100%); color: var(--text); }
+    .navbar { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); }
+    .hero { padding: 7rem 0 5rem; }
+    .hero-card, .card, .info-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(16px); border-radius: 1.3rem; }
+    .btn-accent { background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #fff; border: none; }
+    .btn-accent:hover { color: #fff; transform: translateY(-2px); }
+    .badge-soft { background: rgba(245,158,11,0.18); color: #ffd59b; }
+    .product-img { height: 230px; object-fit: cover; border-radius: 1rem; }
+    .stat-box { border-radius: 1rem; padding: 1rem; background: rgba(255,255,255,0.05); }
+    .footer { padding: 2rem 0; color: var(--muted); border-top: 1px solid rgba(255,255,255,0.12); }
+  </style>
+</head>
+<body>
+  <nav class='navbar navbar-expand-lg navbar-dark sticky-top'>
+    <div class='container'>
+      <a class='navbar-brand fw-bold' href='index.html'>Urban Style</a>
+      <button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navMenu'>
+        <span class='navbar-toggler-icon'></span>
+      </button>
+      <div class='collapse navbar-collapse' id='navMenu'>
+        <ul class='navbar-nav ms-auto mb-2 mb-lg-0'>
+          <li class='nav-item'><a class='nav-link active' href='index.html'>Home</a></li>
+          <li class='nav-item'><a class='nav-link' href='contact.html'>Contact</a></li>
+          <li class='nav-item'><a class='nav-link' href='login.html'>Login</a></li>
+          <li class='nav-item'><a class='nav-link' href='register.html'>Register</a></li>
+          <li class='nav-item'><a class='nav-link' href='profile.html'>Profile</a></li>
+          <li class='nav-item'><a class='nav-link' href='cart.html'>Cart <span id='cartCount' class='badge bg-warning text-dark'>0</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class='hero'>
+    <div class='container'>
+      <div class='row align-items-center g-4'>
+        <div class='col-lg-7'>
+          <span class='badge badge-soft px-3 py-2 rounded-pill mb-3'>New season • premium tailoring • free delivery</span>
+          <h1 class='display-4 fw-bold mb-3'>Elevate your wardrobe with refined men’s essentials.</h1>
+          <p class='lead text-light-emphasis mb-4'>Discover bold outerwear, polished shoes, and statement accessories crafted for modern everyday style.</p>
+          <div class='d-flex gap-3 flex-wrap'>
+            <a href='#products' class='btn btn-accent px-4 py-2'>Shop Collection</a>
+            <a href='contact.html' class='btn btn-outline-light px-4 py-2'>Talk to us</a>
+          </div>
+        </div>
+        <div class='col-lg-5'>
+          <div class='hero-card p-4'>
+            <img src='https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=900&q=80' alt='fashion hero' class='img-fluid rounded-4 shadow'>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class='container py-5'>
+    <div class='row text-center mb-4'>
+      <div class='col-md-4 mb-3'>
+        <div class='stat-box'>
+          <h3 class='fw-bold'>4.9/5</h3>
+          <p class='mb-0 text-light-emphasis'>Customer satisfaction</p>
+        </div>
+      </div>
+      <div class='col-md-4 mb-3'>
+        <div class='stat-box'>
+          <h3 class='fw-bold'>24h</h3>
+          <p class='mb-0 text-light-emphasis'>Fast dispatch across the city</p>
+        </div>
+      </div>
+      <div class='col-md-4 mb-3'>
+        <div class='stat-box'>
+          <h3 class='fw-bold'>100%</h3>
+          <p class='mb-0 text-light-emphasis'>Original and verified products</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id='products' class='container py-3'>
+    <div class='d-flex justify-content-between align-items-center mb-4'>
+      <div>
+        <h2 class='fw-bold'>Featured pieces</h2>
+        <p class='text-light-emphasis mb-0'>Curated for the modern wardrobe</p>
+      </div>
+      <a href='cart.html' class='btn btn-outline-light'>View Cart</a>
+    </div>
+    <div id='productGrid' class='row g-4'></div>
+  </section>
+
+  <section class='container py-5'>
+    <div class='row g-4'>
+      <div class='col-lg-6'>
+        <div class='info-card p-4 h-100'>
+          <h3 class='fw-bold mb-3'>Why shoppers choose Urban Style</h3>
+          <ul class='text-light-emphasis'>
+            <li>Premium materials with tailored finishes</li>
+            <li>Personalized customer support for styling advice</li>
+            <li>Easy returns and seamless checkout experience</li>
+          </ul>
+        </div>
+      </div>
+      <div class='col-lg-6'>
+        <div class='info-card p-4 h-100'>
+          <h3 class='fw-bold mb-3'>Customer spotlight</h3>
+          <p class='text-light-emphasis'>“The fit was impeccable and the packaging felt premium from the first touch.”</p>
+          <div class='fw-semibold'>— Jordan, London</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class='footer'>
+    <div class='container d-flex flex-column flex-md-row justify-content-between gap-3'>
+      <span>© 2026 Urban Style. All rights reserved.</span>
+      <span>Built with HTML, Bootstrap, JavaScript, and localStorage.</span>
+    </div>
+  </footer>
+
+  <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'></script>
+  <script>
+    const products = [
+      { id: 1, name: 'Signature Blazer', price: 129, image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80', description: 'Sharp fit with a refined finish' },
+      { id: 2, name: 'Luxury Loafer', price: 89, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80', description: 'Comfort meets elegance' },
+      { id: 3, name: 'Urban Watch', price: 79, image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=800&q=80', description: 'Minimal design with bold presence' }
+    ];
+
+    const cartKey = 'urbanCart';
+
+    function loadCart() {
+      return JSON.parse(localStorage.getItem(cartKey) || '[]');
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem(cartKey, JSON.stringify(cart));
+    }
+
+    function updateCartBadge() {
+      const cart = loadCart();
+      document.getElementById('cartCount').textContent = cart.length;
+    }
+
+    function createProductCard(product) {
+      return `
+        <div class='col-md-6 col-lg-4'>
+          <div class='card h-100 p-3'>
+            <img src='${product.image}' alt='${product.name}' class='product-img'>
+            <div class='card-body'>
+              <h5 class='card-title fw-bold'>${product.name}</h5>
+              <p class='card-text text-light-emphasis'>${product.description}</p>
+              <div class='d-flex justify-content-between align-items-center'>
+                <span class='fw-bold'>$${product.price}</span>
+                <button class='btn btn-accent' onclick='addToCart(${product.id})'>Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function addToCart(productId) {
+      const cart = loadCart();
+      const existing = cart.find(item => item.id === productId);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ id: productId, quantity: 1 });
+      }
+      saveCart(cart);
+      updateCartBadge();
+      alert('Item added to cart');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('productGrid').innerHTML = products.map(createProductCard).join('');
+      updateCartBadge();
+    });
+  </script>
+</body>
+</html>

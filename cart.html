@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>My Cart | Urban Style</title>
+  <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap' rel='stylesheet'>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #020617 0%, #111827 100%); color: #f9fafb; }
+    .navbar { background: rgba(2, 6, 23, 0.96); }
+    .panel { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 1.3rem; }
+    .btn-accent { background: linear-gradient(90deg, #f59e0b, #fb923c); color: #fff; border: none; }
+    .btn-accent:hover { color: #fff; }
+    .cart-item { border-bottom: 1px solid rgba(255,255,255,0.12); }
+  </style>
+</head>
+<body>
+  <nav class='navbar navbar-expand-lg navbar-dark sticky-top'>
+    <div class='container'>
+      <a class='navbar-brand fw-bold' href='index.html'>Urban Style</a>
+      <button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navMenu'>
+        <span class='navbar-toggler-icon'></span>
+      </button>
+      <div class='collapse navbar-collapse' id='navMenu'>
+        <ul class='navbar-nav ms-auto mb-2 mb-lg-0'>
+          <li class='nav-item'><a class='nav-link' href='index.html'>Home</a></li>
+          <li class='nav-item'><a class='nav-link' href='contact.html'>Contact</a></li>
+          <li class='nav-item'><a class='nav-link' href='login.html'>Login</a></li>
+          <li class='nav-item'><a class='nav-link' href='register.html'>Register</a></li>
+          <li class='nav-item'><a class='nav-link' href='profile.html'>Profile</a></li>
+          <li class='nav-item'><a class='nav-link active' href='cart.html'>Cart <span id='cartCount' class='badge bg-warning text-dark'>0</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class='py-5'>
+    <div class='container'>
+      <div class='row g-4'>
+        <div class='col-lg-8'>
+          <div class='panel p-4'>
+            <div class='d-flex justify-content-between align-items-center mb-4'>
+              <div>
+                <h2 class='fw-bold mb-1'>Your shopping cart</h2>
+                <p class='text-light-emphasis mb-0'>Review your chosen pieces before checkout.</p>
+              </div>
+              <a href='index.html' class='btn btn-outline-light'>Continue shopping</a>
+            </div>
+            <div id='cartItems'></div>
+          </div>
+        </div>
+        <div class='col-lg-4'>
+          <div class='panel p-4'>
+            <h3 class='fw-bold mb-3'>Order summary</h3>
+            <div class='d-flex justify-content-between mb-2'>
+              <span class='text-light-emphasis'>Subtotal</span>
+              <span id='subtotal'>$0</span>
+            </div>
+            <div class='d-flex justify-content-between mb-2'>
+              <span class='text-light-emphasis'>Delivery</span>
+              <span>Free</span>
+            </div>
+            <div class='d-flex justify-content-between fw-bold fs-5 mt-3'>
+              <span>Total</span>
+              <span id='total'>$0</span>
+            </div>
+            <button class='btn btn-accent w-100 mt-4' onclick='checkout()'>Checkout</button>
+            <p id='checkoutMessage' class='mt-3 small text-light-emphasis'></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'></script>
+  <script>
+    const cartKey = 'urbanCart';
+    const products = [
+      { id: 1, name: 'Signature Blazer', price: 129, image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80' },
+      { id: 2, name: 'Luxury Loafer', price: 89, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80' },
+      { id: 3, name: 'Urban Watch', price: 79, image: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=800&q=80' }
+    ];
+
+    function loadCart() {
+      return JSON.parse(localStorage.getItem(cartKey) || '[]');
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem(cartKey, JSON.stringify(cart));
+    }
+
+    function updateCartBadge() {
+      const cart = loadCart();
+      document.getElementById('cartCount').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    function renderCart() {
+      const cart = loadCart();
+      const container = document.getElementById('cartItems');
+      if (!cart.length) {
+        container.innerHTML = '<div class="text-light-emphasis">Your cart is empty. Browse the collection to add your first item.</div>';
+        document.getElementById('subtotal').textContent = '$0';
+        document.getElementById('total').textContent = '$0';
+        return;
+      }
+
+      const items = cart.map(item => {
+        const product = products.find(p => p.id === item.id);
+        if (!product) return '';
+        return `
+          <div class='cart-item py-3 d-flex flex-column flex-md-row justify-content-between align-items-md-center'>
+            <div class='d-flex gap-3 align-items-center'>
+              <img src='${product.image}' alt='${product.name}' style='width: 90px; height: 90px; object-fit: cover; border-radius: 1rem;'>
+              <div>
+                <h5 class='fw-bold mb-1'>${product.name}</h5>
+                <p class='text-light-emphasis mb-1'>${product.price} USD</p>
+                <div class='d-flex align-items-center gap-2'>
+                  <button class='btn btn-sm btn-outline-light' onclick='changeQuantity(${product.id}, -1)'>-</button>
+                  <span>${item.quantity}</span>
+                  <button class='btn btn-sm btn-outline-light' onclick='changeQuantity(${product.id}, 1)'>+</button>
+                </div>
+              </div>
+            </div>
+            <div class='d-flex align-items-center gap-3 mt-3 mt-md-0'>
+              <span class='fw-bold'>$${product.price * item.quantity}</span>
+              <button class='btn btn-sm btn-outline-danger' onclick='removeItem(${product.id})'>Remove</button>
+            </div>
+          </div>`;
+      }).join('');
+
+      container.innerHTML = items;
+      const subtotal = cart.reduce((sum, item) => {
+        const product = products.find(p => p.id === item.id);
+        return sum + (product ? product.price * item.quantity : 0);
+      }, 0);
+      document.getElementById('subtotal').textContent = `$${subtotal}`;
+      document.getElementById('total').textContent = `$${subtotal}`;
+    }
+
+    function changeQuantity(productId, amount) {
+      const cart = loadCart();
+      const item = cart.find(entry => entry.id === productId);
+      if (!item) return;
+      item.quantity += amount;
+      if (item.quantity <= 0) {
+        const filtered = cart.filter(entry => entry.id !== productId);
+        saveCart(filtered);
+      } else {
+        saveCart(cart);
+      }
+      renderCart();
+      updateCartBadge();
+    }
+
+    function removeItem(productId) {
+      const updated = loadCart().filter(item => item.id !== productId);
+      saveCart(updated);
+      renderCart();
+      updateCartBadge();
+    }
+
+    function checkout() {
+      const cart = loadCart();
+      if (!cart.length) {
+        document.getElementById('checkoutMessage').innerHTML = '<div class="alert alert-warning">Add products to your cart before checking out.</div>';
+        return;
+      }
+      saveCart([]);
+      renderCart();
+      updateCartBadge();
+      document.getElementById('checkoutMessage').innerHTML = '<div class="alert alert-success">Order placed successfully. A confirmation email is on its way.</div>';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCart();
+      updateCartBadge();
+    });
+  </script>
+</body>
+</html>
