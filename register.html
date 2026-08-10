@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Register | Urban Style</title>
+  <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap' rel='stylesheet'>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #020617; color: #f9fafb; }
+    .navbar { background: rgba(2, 6, 23, 0.96); }
+    .auth-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 1.3rem; }
+    .btn-accent { background: linear-gradient(90deg, #f59e0b, #fb923c); color: #fff; border: none; }
+    .btn-accent:hover { color: #fff; }
+    .small-link { color: #fbbf24; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <nav class='navbar navbar-expand-lg navbar-dark sticky-top'>
+    <div class='container'>
+      <a class='navbar-brand fw-bold' href='index.html'>Urban Style</a>
+      <button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navMenu'>
+        <span class='navbar-toggler-icon'></span>
+      </button>
+      <div class='collapse navbar-collapse' id='navMenu'>
+        <ul class='navbar-nav ms-auto mb-2 mb-lg-0'>
+          <li class='nav-item'><a class='nav-link' href='index.html'>Home</a></li>
+          <li class='nav-item'><a class='nav-link' href='contact.html'>Contact</a></li>
+          <li class='nav-item'><a class='nav-link' href='login.html'>Login</a></li>
+          <li class='nav-item'><a class='nav-link active' href='register.html'>Register</a></li>
+          <li class='nav-item'><a class='nav-link' href='profile.html'>Profile</a></li>
+          <li class='nav-item'><a class='nav-link' href='cart.html'>Cart <span id='cartCount' class='badge bg-warning text-dark'>0</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class='py-5'>
+    <div class='container'>
+      <div class='row justify-content-center'>
+        <div class='col-lg-7'>
+          <div class='auth-card p-4 p-md-5'>
+            <h2 class='fw-bold mb-3'>Create your account</h2>
+            <p class='text-light-emphasis mb-4'>Join Urban Style to track orders, save your profile, and enjoy a faster checkout.</p>
+            <form id='registerForm' novalidate>
+              <div class='row g-3'>
+                <div class='col-md-6'>
+                  <label class='form-label'>Full name</label>
+                  <input type='text' class='form-control' id='name' required>
+                </div>
+                <div class='col-md-6'>
+                  <label class='form-label'>Email address</label>
+                  <input type='email' class='form-control' id='email' required>
+                </div>
+                <div class='col-md-6'>
+                  <label class='form-label'>Phone number</label>
+                  <input type='tel' class='form-control' id='phone' required>
+                </div>
+                <div class='col-md-6'>
+                  <label class='form-label'>Address</label>
+                  <input type='text' class='form-control' id='address' required>
+                </div>
+                <div class='col-md-6'>
+                  <label class='form-label'>Password</label>
+                  <input type='password' class='form-control' id='password' required>
+                </div>
+                <div class='col-md-6'>
+                  <label class='form-label'>Confirm password</label>
+                  <input type='password' class='form-control' id='confirmPassword' required>
+                </div>
+              </div>
+              <button type='submit' class='btn btn-accent w-100 mt-4'>Register</button>
+            </form>
+            <p class='mt-3 mb-0 text-light-emphasis'>Already a member? <a class='small-link' href='login.html'>Login here</a></p>
+            <div id='registerMessage' class='mt-3'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'></script>
+  <script>
+    const userKey = 'urbanUsers';
+    const cartKey = 'urbanCart';
+    const sessionKey = 'urbanSession';
+
+    function loadCart() {
+      return JSON.parse(localStorage.getItem(cartKey) || '[]');
+    }
+
+    function updateCartBadge() {
+      const cart = loadCart();
+      document.getElementById('cartCount').textContent = cart.length;
+    }
+
+    function getUsers() {
+      return JSON.parse(localStorage.getItem(userKey) || '[]');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCartBadge();
+      document.getElementById('registerForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const confirmPassword = document.getElementById('confirmPassword').value.trim();
+        const messageBox = document.getElementById('registerMessage');
+
+        if (!name || !email || !phone || !address || !password || !confirmPassword) {
+          messageBox.innerHTML = '<div class="alert alert-warning">All fields are required.</div>';
+          return;
+        }
+
+        if (password.length < 6) {
+          messageBox.innerHTML = '<div class="alert alert-warning">Password must be at least 6 characters.</div>';
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          messageBox.innerHTML = '<div class="alert alert-danger">Passwords do not match.</div>';
+          return;
+        }
+
+        const users = getUsers();
+        const duplicate = users.some(user => user.email === email);
+        if (duplicate) {
+          messageBox.innerHTML = '<div class="alert alert-danger">This email is already registered.</div>';
+          return;
+        }
+
+        const newUser = { name, email, phone, address, password };
+        users.push(newUser);
+        localStorage.setItem(userKey, JSON.stringify(users));
+        localStorage.setItem(sessionKey, JSON.stringify(newUser));
+        messageBox.innerHTML = '<div class="alert alert-success">Account created successfully. Redirecting to your profile...</div>';
+        setTimeout(() => window.location.href = 'profile.html', 900);
+      });
+    });
+  </script>
+</body>
+</html>
