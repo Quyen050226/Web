@@ -1,14 +1,14 @@
 const products = [
-  { id: 1, name: 'Áo khoác Bomber', price: 129, category: 'jackets', image: 'assets/images/Ao khoac bomber.jpg', description: 'Áo khoác bomber phong cách năng động, dễ phối đồ.' },
-  { id: 2, name: 'Áo khoác Kaki', price: 99, category: 'jackets', image: 'assets/images/Ao khoac kapo.jpg', description: 'Áo khoác kaki form rộng, chất liệu bền đẹp.' },
-  { id: 3, name: 'Áo khoác chần bông', price: 149, category: 'jackets', image: 'assets/images/Ao khoac.jpg', description: 'Áo khoác chần bông mỏng nhẹ, thích hợp cho buổi tối se lạnh.' },
-  { id: 4, name: 'Áo len', price: 79, category: 'sweaters', image: 'assets/images/Ao len.jpg', description: 'Áo len mềm mại, giữ ấm tốt, dễ phối phong cách.' },
-  { id: 5, name: 'Áo oversize', price: 59, category: 'shirts', image: 'assets/images/Ao oversize.jpg', description: 'Áo form rộng phong cách đường phố hiện đại.' },
-  { id: 6, name: 'Áo thun nam', price: 39, category: 'shirts', image: 'assets/images/Ao thun nam.jpg', description: 'Áo thun cotton co giãn thoải mái, mặc hàng ngày.' },
-  { id: 7, name: 'Giày nam Sneaker', price: 89, category: 'shoes', image: 'assets/images/giay nam Sneaker.jpg', description: 'Giày sneaker năng động, đế êm, phù hợp mọi trang phục.' },
-  { id: 8, name: 'Giày thể thao', price: 79, category: 'shoes', image: 'assets/images/Giay the thao.webp', description: 'Giày thể thao nhẹ, thoáng khí, thích hợp vận động.' },
-  { id: 9, name: 'Mũ lưỡi trai Wondea', price: 25, category: 'accessories', image: 'assets/images/Mu luoi tra nam WONDEA.jpg', description: 'Mũ lưỡi trai thời trang, form chuẩn, dễ đội.' },
-  { id: 10, name: 'Mũ lưỡi trai Force', price: 25, category: 'accessories', image: 'assets/images/Mu luoi Trai Force.jpg', description: 'Mũ lưỡi trai phong cách thể thao, chất liệu bền.' }
+  { id: 1, name: 'Bomber Jacket', price: 129, category: 'jackets', image: 'assets/images/Ao khoac bomber.jpg', description: 'A sporty bomber jacket with a sleek silhouette that pairs effortlessly with any outfit.' },
+  { id: 2, name: 'Kaki Jacket', price: 99, category: 'jackets', image: 'assets/images/Ao khoac kapo.jpg', description: 'A relaxed-fit kaki jacket in durable fabric for everyday wear and easy layering.' },
+  { id: 3, name: 'Quilted Jacket', price: 149, category: 'jackets', image: 'assets/images/Ao khoac.jpg', description: 'Lightweight quilted outerwear designed to keep you warm on cool evenings.' },
+  { id: 4, name: 'Soft Knit Sweater', price: 79, category: 'sweaters', image: 'assets/images/Ao len.jpg', description: 'A cozy knit sweater with a soft feel that stays warm while keeping your look polished.' },
+  { id: 5, name: 'Oversized Shirt', price: 59, category: 'shirts', image: 'assets/images/Ao oversize.jpg', description: 'A modern oversized shirt with a streetwear-inspired cut for a relaxed, contemporary look.' },
+  { id: 6, name: 'Men’s Cotton Tee', price: 39, category: 'shirts', image: 'assets/images/Ao thun nam.jpg', description: 'A comfortable stretch cotton tee designed for everyday ease and versatile styling.' },
+  { id: 7, name: 'Men’s Sneaker', price: 89, category: 'shoes', image: 'assets/images/giay nam Sneaker.jpg', description: 'A dynamic sneaker with a cushioned sole, perfect for active days and casual outfits.' },
+  { id: 8, name: 'Performance Trainer', price: 79, category: 'shoes', image: 'assets/images/Giay the thao.webp', description: 'A lightweight athletic shoe with breathable support built for movement.' },
+  { id: 9, name: 'Wondea Baseball Cap', price: 25, category: 'accessories', image: 'assets/images/Mu luoi tra nam WONDEA.jpg', description: 'A stylish baseball cap with a clean fit and comfortable design for everyday wear.' },
+  { id: 10, name: 'Force Baseball Cap', price: 25, category: 'accessories', image: 'assets/images/Mu luoi Trai Force.jpg', description: 'A sporty baseball cap in durable material with a bold, athletic edge.' }
 ];
 
 const cartKey = 'urbanCart';
