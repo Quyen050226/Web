@@ -100,6 +100,24 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       updateCartBadge();
+
+      const emailInput = document.getElementById('email');
+      const emailError = document.createElement('div');
+      emailError.id = 'emailError';
+      emailError.className = 'form-text text-danger mt-1';
+      emailError.textContent = 'Please use a @gmail.com email address to register.';
+      emailError.style.display = 'none';
+      emailInput.insertAdjacentElement('afterend', emailError);
+
+      function validateEmail() {
+        const email = emailInput.value.trim();
+        const isValid = /@gmail\.com$/i.test(email);
+        emailError.style.display = isValid ? 'none' : 'block';
+        return isValid;
+      }
+
+      emailInput.addEventListener('input', validateEmail);
+
       document.getElementById('registerForm').addEventListener('submit', function (event) {
         event.preventDefault();
         const name = document.getElementById('name').value.trim();
@@ -112,6 +130,10 @@
 
         if (!name || !email || !phone || !address || !password || !confirmPassword) {
           messageBox.innerHTML = '<div class="alert alert-warning">All fields are required.</div>';
+          return;
+        }
+
+        if (!validateEmail()) {
           return;
         }
 
