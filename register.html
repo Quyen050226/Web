@@ -26,8 +26,7 @@
         <ul class='navbar-nav ms-auto mb-2 mb-lg-0'>
           <li class='nav-item'><a class='nav-link' href='index.html'>Home</a></li>
           <li class='nav-item'><a class='nav-link' href='contact.html'>Contact</a></li>
-          <li class='nav-item'><a class='nav-link' href='login.html'>Login</a></li>
-          <li class='nav-item'><a class='nav-link active' href='register.html'>Register</a></li>
+          <li class='nav-item' id='authNavLinks'></li>
           <li class='nav-item'><a class='nav-link' href='profile.html'>Profile</a></li>
           <li class='nav-item'><a class='nav-link' href='cart.html'>Cart <span id='cartCount' class='badge bg-warning text-dark'>0</span></a></li>
         </ul>
@@ -83,7 +82,8 @@
   <script>
     const userKey = 'urbanUsers';
     const cartKey = 'urbanCart';
-    const sessionKey = 'urbanSession';
+    const sessionKey = 'urbanUser';
+    const legacySessionKey = 'urbanSession';
 
     function loadCart() {
       return JSON.parse(localStorage.getItem(cartKey) || '[]');
@@ -98,8 +98,72 @@
       return JSON.parse(localStorage.getItem(userKey) || '[]');
     }
 
+    function loadCurrentUser() {
+      try {
+        return JSON.parse(localStorage.getItem(sessionKey) || localStorage.getItem(legacySessionKey) || 'null');
+      } catch {
+        return null;
+      }
+    }
+
+    function saveCurrentUser(user) {
+      localStorage.setItem(sessionKey, JSON.stringify(user));
+      localStorage.setItem(legacySessionKey, JSON.stringify(user));
+    }
+
+    function logoutUser(event) {
+      event.preventDefault();
+      localStorage.removeItem(sessionKey);
+      localStorage.removeItem(legacySessionKey);
+      window.location.href = 'login.html';
+    }
+
+    function updateAuthNav() {
+      const authNavLinks = document.getElementById('authNavLinks');
+      if (!authNavLinks) return;
+
+      authNavLinks.innerHTML = '';
+      const currentUser = loadCurrentUser();
+
+      if (currentUser) {
+        const profileLink = document.createElement('a');
+        profileLink.className = 'nav-link text-warning fw-semibold';
+        profileLink.href = 'profile.html';
+        profileLink.textContent = currentUser.name;
+
+        const logoutLink = document.createElement('a');
+        logoutLink.className = 'nav-link';
+        logoutLink.href = '#';
+        logoutLink.textContent = 'Logout';
+        logoutLink.addEventListener('click', logoutUser);
+
+        authNavLinks.appendChild(profileLink);
+        authNavLinks.appendChild(logoutLink);
+      } else {
+        const loginLink = document.createElement('a');
+        loginLink.className = 'nav-link';
+        loginLink.href = 'login.html';
+        loginLink.textContent = 'Login';
+
+        const registerLink = document.createElement('a');
+        registerLink.className = 'nav-link active';
+        registerLink.href = 'register.html';
+        registerLink.textContent = 'Register';
+
+        authNavLinks.appendChild(loginLink);
+        authNavLinks.appendChild(registerLink);
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       updateCartBadge();
+      updateAuthNav();
+
+      const currentUser = loadCurrentUser();
+      if (currentUser) {
+        window.location.href = 'profile.html';
+        return;
+      }
 
       const emailInput = document.getElementById('email');
       const emailError = document.createElement('div');
@@ -157,7 +221,8 @@
         const newUser = { name, email, phone, address, password };
         users.push(newUser);
         localStorage.setItem(userKey, JSON.stringify(users));
-        localStorage.setItem(sessionKey, JSON.stringify(newUser));
+        saveCurrentUser(newUser);
+        updateAuthNav();
         messageBox.innerHTML = '<div class="alert alert-success">Account created successfully. Redirecting to your profile...</div>';
         setTimeout(() => window.location.href = 'profile.html', 900);
       });

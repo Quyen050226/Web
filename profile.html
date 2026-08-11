@@ -25,8 +25,7 @@
         <ul class='navbar-nav ms-auto mb-2 mb-lg-0'>
           <li class='nav-item'><a class='nav-link' href='index.html'>Home</a></li>
           <li class='nav-item'><a class='nav-link' href='contact.html'>Contact</a></li>
-          <li class='nav-item'><a class='nav-link' href='login.html'>Login</a></li>
-          <li class='nav-item'><a class='nav-link' href='register.html'>Register</a></li>
+          <li class='nav-item' id='authNavLinks'></li>
           <li class='nav-item'><a class='nav-link active' href='profile.html'>Profile</a></li>
           <li class='nav-item'><a class='nav-link' href='cart.html'>Cart <span id='cartCount' class='badge bg-warning text-dark'>0</span></a></li>
         </ul>
@@ -43,7 +42,7 @@
             <h3 id='profileName' class='fw-bold'>Your profile</h3>
             <p id='profileEmail' class='text-light-emphasis'></p>
             <p class='small text-light-emphasis'>Member since 2026</p>
-            <button class='btn btn-outline-light mt-2' onclick='logout()'>Logout</button>
+            <button class='btn btn-outline-light mt-2' onclick='logout(event)'>Logout</button>
           </div>
         </div>
         <div class='col-lg-8'>
@@ -85,7 +84,8 @@
   <script>
     const userKey = 'urbanUsers';
     const cartKey = 'urbanCart';
-    const sessionKey = 'urbanSession';
+    const sessionKey = 'urbanUser';
+    const legacySessionKey = 'urbanSession';
 
     function loadCart() {
       return JSON.parse(localStorage.getItem(cartKey) || '[]');
@@ -97,20 +97,67 @@
     }
 
     function loadCurrentUser() {
-      return JSON.parse(localStorage.getItem(sessionKey) || 'null');
+      try {
+        return JSON.parse(localStorage.getItem(sessionKey) || localStorage.getItem(legacySessionKey) || 'null');
+      } catch {
+        return null;
+      }
     }
 
     function saveCurrentUser(user) {
       localStorage.setItem(sessionKey, JSON.stringify(user));
+      localStorage.setItem(legacySessionKey, JSON.stringify(user));
     }
 
-    function logout() {
+    function logout(event) {
+      if (event) {
+        event.preventDefault();
+      }
       localStorage.removeItem(sessionKey);
+      localStorage.removeItem(legacySessionKey);
       window.location.href = 'login.html';
+    }
+
+    function updateAuthNav() {
+      const authNavLinks = document.getElementById('authNavLinks');
+      if (!authNavLinks) return;
+
+      authNavLinks.innerHTML = '';
+      const currentUser = loadCurrentUser();
+
+      if (currentUser) {
+        const profileLink = document.createElement('a');
+        profileLink.className = 'nav-link text-warning fw-semibold';
+        profileLink.href = 'profile.html';
+        profileLink.textContent = currentUser.name;
+
+        const logoutLink = document.createElement('a');
+        logoutLink.className = 'nav-link';
+        logoutLink.href = '#';
+        logoutLink.textContent = 'Logout';
+        logoutLink.addEventListener('click', logout);
+
+        authNavLinks.appendChild(profileLink);
+        authNavLinks.appendChild(logoutLink);
+      } else {
+        const loginLink = document.createElement('a');
+        loginLink.className = 'nav-link';
+        loginLink.href = 'login.html';
+        loginLink.textContent = 'Login';
+
+        const registerLink = document.createElement('a');
+        registerLink.className = 'nav-link';
+        registerLink.href = 'register.html';
+        registerLink.textContent = 'Register';
+
+        authNavLinks.appendChild(loginLink);
+        authNavLinks.appendChild(registerLink);
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       updateCartBadge();
+      updateAuthNav();
       const currentUser = loadCurrentUser();
       if (!currentUser) {
         window.location.href = 'login.html';
@@ -143,6 +190,7 @@
         }
 
         saveCurrentUser(updatedUser);
+        updateAuthNav();
         document.getElementById('profileName').textContent = updatedUser.name;
         document.getElementById('profileEmail').textContent = updatedUser.email;
         document.getElementById('profileMessage').innerHTML = '<div class="alert alert-success">Profile updated successfully.</div>';
