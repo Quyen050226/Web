@@ -140,18 +140,7 @@
         authNavLinks.appendChild(profileLink);
         authNavLinks.appendChild(logoutLink);
       } else {
-        const loginLink = document.createElement('a');
-        loginLink.className = 'nav-link';
-        loginLink.href = 'login.html';
-        loginLink.textContent = 'Login';
-
-        const registerLink = document.createElement('a');
-        registerLink.className = 'nav-link';
-        registerLink.href = 'register.html';
-        registerLink.textContent = 'Register';
-
-        authNavLinks.appendChild(loginLink);
-        authNavLinks.appendChild(registerLink);
+        authNavLinks.innerHTML = '';
       }
     }
 

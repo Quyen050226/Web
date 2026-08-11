@@ -140,18 +140,7 @@
         authNavLinks.appendChild(profileLink);
         authNavLinks.appendChild(logoutLink);
       } else {
-        const loginLink = document.createElement('a');
-        loginLink.className = 'nav-link';
-        loginLink.href = 'login.html';
-        loginLink.textContent = 'Login';
-
-        const registerLink = document.createElement('a');
-        registerLink.className = 'nav-link active';
-        registerLink.href = 'register.html';
-        registerLink.textContent = 'Register';
-
-        authNavLinks.appendChild(loginLink);
-        authNavLinks.appendChild(registerLink);
+        authNavLinks.innerHTML = '';
       }
     }
 
@@ -221,10 +210,8 @@
         const newUser = { name, email, phone, address, password };
         users.push(newUser);
         localStorage.setItem(userKey, JSON.stringify(users));
-        saveCurrentUser(newUser);
-        updateAuthNav();
-        messageBox.innerHTML = '<div class="alert alert-success">Account created successfully. Redirecting to your profile...</div>';
-        setTimeout(() => window.location.href = 'profile.html', 900);
+        messageBox.innerHTML = '<div class="alert alert-success">Registration successful. <a href="login.html" class="alert-link">Log in now</a>.</div>';
+        document.getElementById('registerForm').reset();
       });
     });
   </script>

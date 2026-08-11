@@ -122,6 +122,7 @@
         authNavLinks.appendChild(profileLink);
         authNavLinks.appendChild(logoutLink);
       } else {
+        authNavLinks.innerHTML = '';
         const loginLink = document.createElement('a');
         loginLink.className = 'nav-link active';
         loginLink.href = 'login.html';
